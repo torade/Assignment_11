@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
 {
-    private final List<String> data;
+    private List<String> data;
     private final Context context;
     private final OnItemClickListener listener;
     public interface OnItemClickListener { void onItemClick(String item); }
@@ -36,27 +36,23 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_layout, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.card_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position)
-    {
-        //bind data to views
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String item = data.get(position);
-        holder.itemTextView.setText(item);
+        holder.tvItemName.setText(item);                      // team name
+        holder.tvItemDetail.setText("Details here");          // placeholder
+        holder.tvItemExtra.setText("Extra info if needed");   // placeholder
 
-        /**
-         * Set click listener for the item using lambda expression
-         */
-        holder.itemView.setOnClickListener(v ->
-        {
+        holder.itemView.setOnClickListener(v -> {
             if (listener != null)
                 listener.onItemClick(item);
         });
-
     }
+
 
     @Override
     public int getItemCount() { return data.size(); }
@@ -64,9 +60,22 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
     /**
      * ViewHolder class for the adapter
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
-        public TextView itemTextView;
-        public ViewHolder(@NonNull View itemView) { super(itemView); }
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvItemName, tvItemDetail, tvItemExtra;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvItemName = itemView.findViewById(R.id.tv_item_name);
+            tvItemDetail = itemView.findViewById(R.id.tv_item_detail);
+            tvItemExtra = itemView.findViewById(R.id.tv_item_extra);
+        }
     }
+
+    public void setTeams(List<String> teams) {
+        data.clear();
+        data.addAll(teams);
+        notifyDataSetChanged();
+    }
+
+
 }
