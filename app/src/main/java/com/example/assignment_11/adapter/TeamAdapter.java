@@ -15,7 +15,7 @@ import com.example.assignment_11.model.Team;
 
 import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
+public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder>
 {
     private List<Team> data;
     private final Context context;
@@ -26,7 +26,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
      * Constructor
      * @param data
      */
-    public Adapter(Context context, List<Team> data, OnItemClickListener listener) {
+    public TeamAdapter(Context context, List<Team> data, OnItemClickListener listener) {
         this.context = context;
         this.data = data;
         this.listener = listener;

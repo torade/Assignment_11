@@ -1,6 +1,7 @@
 package com.example.assignment_11.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.assignment_11.R;
-import com.example.assignment_11.adapter.Adapter;
+import com.example.assignment_11.adapter.TeamAdapter;
+import com.example.assignment_11.iterator.TeamIterator;
 import com.example.assignment_11.model.Team;
 import com.example.assignment_11.repository.TeamRepository;
 
@@ -23,11 +25,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TeamFragment extends Fragment implements Adapter.OnItemClickListener {
+public class TeamFragment extends Fragment implements TeamAdapter.OnItemClickListener {
 
     private RecyclerView recyclerView;
     private TextView tvEmptyView;
-    private Adapter adapter;
+    private TeamAdapter teamAdapter;
     private TeamRepository teamRepository;
 
     @Nullable
@@ -47,11 +49,14 @@ public class TeamFragment extends Fragment implements Adapter.OnItemClickListene
         Button btnShowAll = view.findViewById(R.id.btn_show_all);
         Button btnFilterTeams = view.findViewById(R.id.btn_filter_teams);
         Button btnSortByName = view.findViewById(R.id.btn_sort_by_name);
+        Button btnTeamIterator = view.findViewById(R.id.btn_team_iterator);
+        btnTeamIterator.setOnClickListener(v -> demoTeamIterator());
+
 
         //set up adapter and RecyclerView
-        adapter = new Adapter(requireContext(), teamRepository.getAll(), this);
+        teamAdapter = new TeamAdapter(requireContext(), teamRepository.getAll(), this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(teamAdapter);
 
         //set up logic
         loadAllTeams();
@@ -86,7 +91,7 @@ public class TeamFragment extends Fragment implements Adapter.OnItemClickListene
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             tvEmptyView.setVisibility(View.GONE);
-            adapter.setTeams(teams);
+            teamAdapter.setTeams(teams);
         }
     }
 
@@ -95,4 +100,13 @@ public class TeamFragment extends Fragment implements Adapter.OnItemClickListene
     public void onItemClick(String item) {
         Toast.makeText(getContext(), "Clicked: " + item, Toast.LENGTH_SHORT).show();
     }
+
+    private void demoTeamIterator() {
+        TeamIterator iterator = new TeamIterator(teamRepository.getAll());
+        while (iterator.hasNext()) {
+            Team t = iterator.next();
+            Log.d("TeamIterator", "Team: " + t.getName());
+        }
+    }
+
 }
