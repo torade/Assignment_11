@@ -5,6 +5,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
+    <Button
+        android:id="@+id/btn_show_all_matches"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show All Matches" />
+
+    <Button
+        android:id="@+id/btn_filter_barcelona"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filter Matches with FC Barcelona" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_match"

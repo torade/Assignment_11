@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import com.example.assignment_11.model.Match;
 import com.example.assignment_11.repository.MatchRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MatchFragment extends Fragment {
 
@@ -36,10 +38,30 @@ public class MatchFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view_match);
         matchRepository = new MatchRepository();
 
+        Button btnShowAllMatches = view.findViewById(R.id.btn_show_all_matches);
+        Button btnFilterBarcelona = view.findViewById(R.id.btn_filter_barcelona);
+
+        btnShowAllMatches.setOnClickListener(v -> showAllMatches());
+        btnFilterBarcelona.setOnClickListener(v -> filterByTeam("FC Barcelona"));
+
+
         List<Match> matches = matchRepository.getAll();
 
         adapter = new MatchAdapter(requireContext(), matches);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
+
+    private void showAllMatches() {
+        adapter.setMatches(matchRepository.getAll());
+    }
+
+    private void filterByTeam(String team) {
+        List<Match> filtered = matchRepository.getAll().stream()
+                .filter(m -> m.getHomeTeam().equalsIgnoreCase(team) || m.getAwayTeam().equalsIgnoreCase(team))
+                .collect(Collectors.toList());
+
+        adapter.setMatches(filtered);
+    }
+
 }

@@ -5,6 +5,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
+    <Button
+        android:id="@+id/btn_show_all_players"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show All Players" />
+
+    <Button
+        android:id="@+id/btn_sort_players"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sort by Name" />
+
+    <Button
+        android:id="@+id/btn_filter_forwards"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filter 'Forwards'" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_player"
