@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.assignment_11.fragment.MatchFragment;
-import com.example.assignment_11.fragment.PlayerFragment;
 import com.example.assignment_11.fragment.TeamFragment;
+import com.example.assignment_11.fragment.PlayerFragment;
+import com.example.assignment_11.fragment.MatchFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
@@ -31,4 +31,3 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
         return 3;
     }
 }
-

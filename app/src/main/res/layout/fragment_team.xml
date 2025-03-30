@@ -1,5 +1,42 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:text="Team Fragment" />
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/btn_show_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show All Teams" />
+
+    <Button
+        android:id="@+id/btn_filter_teams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filter Teams Starting with A" />
+
+    <Button
+        android:id="@+id/btn_sort_by_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sort Teams by Name" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingTop="8dp" />
+
+    <TextView
+        android:id="@+id/tv_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No teams to display"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:padding="16dp" />
+</LinearLayout>
