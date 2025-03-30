@@ -20,6 +20,9 @@ import com.example.assignment_11.repository.MatchRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A fragment to display and manage a list of matches.
+ */
 public class MatchFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -35,27 +38,39 @@ public class MatchFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        recyclerView = view.findViewById(R.id.recycler_view_match);
-        matchRepository = new MatchRepository();
+        super.onViewCreated(view, savedInstanceState);
 
+        // Initialize views
+        recyclerView = view.findViewById(R.id.recycler_view_match);
         Button btnShowAllMatches = view.findViewById(R.id.btn_show_all_matches);
         Button btnFilterBarcelona = view.findViewById(R.id.btn_filter_barcelona);
 
-        btnShowAllMatches.setOnClickListener(v -> showAllMatches());
-        btnFilterBarcelona.setOnClickListener(v -> filterByTeam("FC Barcelona"));
-
-
+        // Initialize repository and adapter
+        matchRepository = new MatchRepository();
         List<Match> matches = matchRepository.getAll();
-
         adapter = new MatchAdapter(requireContext(), matches);
+
+        // Set up RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+
+        // Set up button click listeners
+        btnShowAllMatches.setOnClickListener(v -> showAllMatches());
+        btnFilterBarcelona.setOnClickListener(v -> filterByTeam("FC Barcelona"));
     }
 
+    /**
+     * Displays all matches in the RecyclerView.
+     */
     private void showAllMatches() {
         adapter.setMatches(matchRepository.getAll());
     }
 
+    /**
+     * Filters matches by the specified team name and updates the RecyclerView.
+     *
+     * @param team The name of the team to filter matches by.
+     */
     private void filterByTeam(String team) {
         List<Match> filtered = matchRepository.getAll().stream()
                 .filter(m -> m.getHomeTeam().equalsIgnoreCase(team) || m.getAwayTeam().equalsIgnoreCase(team))
@@ -63,5 +78,4 @@ public class MatchFragment extends Fragment {
 
         adapter.setMatches(filtered);
     }
-
 }

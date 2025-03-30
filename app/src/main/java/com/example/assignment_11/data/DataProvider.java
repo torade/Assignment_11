@@ -7,11 +7,17 @@ import com.example.assignment_11.model.Team;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Provides sample data for teams, players, and matches.
+ */
 public class DataProvider {
 
-    // Teams Data
-    public List<Team> createSampleTeams()
-    {
+    /**
+     * Creates a list of sample teams.
+     *
+     * @return A list of sample teams.
+     */
+    public List<Team> createSampleTeams() {
         List<Team> teams = new ArrayList<>();
         teams.add(new Team("FC Barcelona", "Spain", "La Liga"));
         teams.add(new Team("Manchester United", "England", "Premier League"));
@@ -24,9 +30,12 @@ public class DataProvider {
         return teams;
     }
 
-    // Players Data
-    public List<Player> createSamplePlayers()
-    {
+    /**
+     * Creates a list of sample players.
+     *
+     * @return A list of sample players.
+     */
+    public List<Player> createSamplePlayers() {
         List<Player> players = new ArrayList<>();
         players.add(new Player("Lionel Messi", "Forward", "FC Barcelona"));
         players.add(new Player("Cristiano Ronaldo", "Forward", "Juventus"));
@@ -43,9 +52,12 @@ public class DataProvider {
         return players;
     }
 
-    //Matches Data
-    public List<Match> createSampleMatches()
-    {
+    /**
+     * Creates a list of sample matches.
+     *
+     * @return A list of sample matches.
+     */
+    public List<Match> createSampleMatches() {
         List<Match> matches = new ArrayList<>();
         matches.add(new Match("FC Barcelona", "Real Madrid", "2-1"));
         matches.add(new Match("Manchester United", "Liverpool", "0-3"));
@@ -57,6 +69,4 @@ public class DataProvider {
         matches.add(new Match("Liverpool", "Ajax Amsterdam", "1-0"));
         return matches;
     }
-
-
 }

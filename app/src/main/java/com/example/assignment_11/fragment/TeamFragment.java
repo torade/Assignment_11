@@ -25,6 +25,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A fragment to display and manage a list of teams.
+ */
 public class TeamFragment extends Fragment implements TeamAdapter.OnItemClickListener {
 
     private RecyclerView recyclerView;
@@ -41,42 +44,51 @@ public class TeamFragment extends Fragment implements TeamAdapter.OnItemClickLis
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         teamRepository = new TeamRepository();
 
-        //get all views from layout
+        // Initialize views
         recyclerView = view.findViewById(R.id.recycler_view);
         tvEmptyView = view.findViewById(R.id.tv_empty_view);
         Button btnShowAll = view.findViewById(R.id.btn_show_all);
         Button btnFilterTeams = view.findViewById(R.id.btn_filter_teams);
         Button btnSortByName = view.findViewById(R.id.btn_sort_by_name);
         Button btnTeamIterator = view.findViewById(R.id.btn_team_iterator);
-        btnTeamIterator.setOnClickListener(v -> demoTeamIterator());
 
-
-        //set up adapter and RecyclerView
+        // Set up RecyclerView and adapter
         teamAdapter = new TeamAdapter(requireContext(), teamRepository.getAll(), this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(teamAdapter);
 
-        //set up logic
-        loadAllTeams();
-
+        // Set up button click listeners
         btnShowAll.setOnClickListener(v -> loadAllTeams());
         btnFilterTeams.setOnClickListener(v -> filterTeams());
         btnSortByName.setOnClickListener(v -> sortTeamsByName());
+        btnTeamIterator.setOnClickListener(v -> demoTeamIterator());
+
+        // Load all teams initially
+        loadAllTeams();
     }
 
-
+    /**
+     * Loads all teams from the repository and updates the RecyclerView.
+     */
     private void loadAllTeams() {
         List<Team> teams = teamRepository.getAll();
         updateRecyclerView(teams);
     }
 
+    /**
+     * Filters teams whose names start with "A" and updates the RecyclerView.
+     */
     private void filterTeams() {
         List<Team> filteredTeams = teamRepository.filter(team -> team.getName().startsWith("A"));
         updateRecyclerView(filteredTeams);
     }
 
+    /**
+     * Sorts teams by name and updates the RecyclerView.
+     */
     private void sortTeamsByName() {
         List<Team> sortedTeams = teamRepository.getAll().stream()
                 .sorted(Comparator.comparing(Team::getName))
@@ -84,6 +96,11 @@ public class TeamFragment extends Fragment implements TeamAdapter.OnItemClickLis
         updateRecyclerView(sortedTeams);
     }
 
+    /**
+     * Updates the RecyclerView with the given list of teams.
+     *
+     * @param teams The list of teams to display.
+     */
     private void updateRecyclerView(List<Team> teams) {
         if (teams.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
@@ -95,18 +112,19 @@ public class TeamFragment extends Fragment implements TeamAdapter.OnItemClickLis
         }
     }
 
-
     @Override
     public void onItemClick(String item) {
         Toast.makeText(getContext(), "Clicked: " + item, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Demonstrates the use of TeamIterator to iterate over the list of teams.
+     */
     private void demoTeamIterator() {
         TeamIterator iterator = new TeamIterator(teamRepository.getAll());
         while (iterator.hasNext()) {
-            Team t = iterator.next();
-            Log.d("TeamIterator", "Team: " + t.getName());
+            Team team = iterator.next();
+            Log.d("TeamIterator", "Team: " + team.getName());
         }
     }
-
 }

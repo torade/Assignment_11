@@ -9,19 +9,38 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class TeamRepository extends Repository<Team> {
-    private List<Team> teams;
 
+    // List to hold team data
+    private final List<Team> teams;
+
+    /**
+     * Constructor to initialize the repository with sample data.
+     */
     public TeamRepository() {
+        // Initialize DataProvider and load sample teams
         DataProvider dataProvider = new DataProvider();
-        teams = dataProvider.createSampleTeams(); //loading the data here
+        this.teams = dataProvider.createSampleTeams();
     }
 
+    /**
+     * Returns a list of all teams.
+     *
+     * @return A new list containing all teams.
+     */
     @Override
     public List<Team> getAll() {
         return new ArrayList<>(teams);
     }
 
+    /**
+     * Filters the list of teams based on the given predicate.
+     *
+     * @param predicate The condition to filter teams.
+     * @return A list of teams that match the predicate.
+     */
     public List<Team> filter(Predicate<Team> predicate) {
-        return teams.stream().filter(predicate).collect(Collectors.toList());
+        return teams.stream()
+                .filter(predicate)
+                .collect(Collectors.toList());
     }
 }

@@ -23,6 +23,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A fragment to display and manage a list of players.
+ */
 public class PlayerFragment extends Fragment implements PlayerAdapter.OnItemClickListener {
 
     private RecyclerView recyclerView;
@@ -39,27 +42,69 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnItemClic
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         playerRepository = new PlayerRepository();
 
+        // Initialize views
         recyclerView = view.findViewById(R.id.recycler_view_player);
         tvEmptyView = view.findViewById(R.id.tv_empty_view_player);
         Button btnShowAllPlayers = view.findViewById(R.id.btn_show_all_players);
         Button btnSortPlayers = view.findViewById(R.id.btn_sort_players);
         Button btnFilterForwards = view.findViewById(R.id.btn_filter_forwards);
 
-
+        // Set up RecyclerView and adapter
         List<Player> players = playerRepository.getAll();
-
         adapter = new PlayerAdapter(requireContext(), players, this);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
+        // Set up button click listeners
         btnShowAllPlayers.setOnClickListener(v -> showAllPlayers());
         btnSortPlayers.setOnClickListener(v -> sortPlayersByName());
         btnFilterForwards.setOnClickListener(v -> filterForwards());
 
+        // Update view visibility based on data availability
+        updateViewVisibility(players);
+    }
 
+    @Override
+    public void onItemClick(String item) {
+        Toast.makeText(getContext(), "Clicked: " + item, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Displays all players in the RecyclerView.
+     */
+    private void showAllPlayers() {
+        adapter.setPlayers(playerRepository.getAll());
+    }
+
+    /**
+     * Sorts players by name and updates the RecyclerView.
+     */
+    private void sortPlayersByName() {
+        List<Player> sorted = playerRepository.getAll().stream()
+                .sorted(Comparator.comparing(Player::getName))
+                .collect(Collectors.toList());
+        adapter.setPlayers(sorted);
+    }
+
+    /**
+     * Filters players with the position "Forward" and updates the RecyclerView.
+     */
+    private void filterForwards() {
+        List<Player> forwards = playerRepository.getAll().stream()
+                .filter(p -> p.getPosition().equalsIgnoreCase("Forward"))
+                .collect(Collectors.toList());
+        adapter.setPlayers(forwards);
+    }
+
+    /**
+     * Updates the visibility of the RecyclerView and empty view based on data availability.
+     *
+     * @param players The list of players to check.
+     */
+    private void updateViewVisibility(List<Player> players) {
         if (players.isEmpty()) {
             recyclerView.setVisibility(View.GONE);
             tvEmptyView.setVisibility(View.VISIBLE);
@@ -68,29 +113,4 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnItemClic
             tvEmptyView.setVisibility(View.GONE);
         }
     }
-
-    @Override
-    public void onItemClick(String item) {
-        Toast.makeText(getContext(), "Clicked: " + item, Toast.LENGTH_SHORT).show();
-    }
-
-    private void showAllPlayers() {
-        adapter.setPlayers(playerRepository.getAll());
-    }
-
-    private void sortPlayersByName() {
-        List<Player> sorted = playerRepository.getAll().stream()
-                .sorted(Comparator.comparing(Player::getName))
-                .collect(Collectors.toList());
-        adapter.setPlayers(sorted);
-    }
-
-    private void filterForwards() {
-        List<Player> forwards = playerRepository.getAll().stream()
-                .filter(p -> p.getPosition().equalsIgnoreCase("Forward"))
-                .collect(Collectors.toList());
-        adapter.setPlayers(forwards);
-    }
-
-
 }

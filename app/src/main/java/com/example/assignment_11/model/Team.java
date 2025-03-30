@@ -2,29 +2,59 @@ package com.example.assignment_11.model;
 
 import com.example.assignment_11.interfaces.SoccerEntity;
 
+/**
+ * Represents a soccer team with a name, country, and league.
+ */
 public class Team implements SoccerEntity {
-    //attributes
-    private String name, country, league;
-    private int id=0;
 
-    //constructor
-    public Team(String name, String country, String league)
-    {
+    // Attributes
+    private String name;
+    private String country;
+    private String league;
+    private static int idCounter = 0; // Static counter for unique IDs
+    private int id;
+
+    /**
+     * Constructor to initialize a new Team object.
+     *
+     * @param name    The name of the team.
+     * @param country The country of the team.
+     * @param league  The league the team belongs to.
+     */
+    public Team(String name, String country, String league) {
         this.name = name;
         this.country = country;
         this.league = league;
-        this.id++;
+        this.id = ++idCounter; // Increment and assign a unique ID
     }
 
-    //setters
-    public void setName(String name) { this.name = name; }
-    public void setCountry(String country) { this.country = country; }
-    public void setLeague(String league) { this.league = league; }
+    // Setters
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    //getters
-    public String getName() { return this.name; }
-    public String getCountry() { return this.country; }
-    public String getLeague() { return this.league; }
-    public int getId() { return this.id; }
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
+    public void setLeague(String league) {
+        this.league = league;
+    }
+
+    // Getters
+    public String getName() {
+        return name;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getLeague() {
+        return league;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

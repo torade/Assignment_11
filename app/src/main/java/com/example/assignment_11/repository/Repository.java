@@ -1,7 +1,6 @@
 package com.example.assignment_11.repository;
 
 import android.os.Build;
-
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
@@ -10,34 +9,51 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * Generic repository class for soccer teams.
- * Demonstrates generics and implements Iterable interface.
+ * A generic repository class for managing a collection of items.
+ * Implements basic CRUD operations and filtering functionality.
  *
- * @param <T> the type of elements in this container
+ * @param <T> The type of elements in this repository.
  */
 public class Repository<T> {
 
-    //attributes
-    private List<T> items;
+    // List to hold items
+    private final List<T> items;
 
-    //constructor
-    public Repository() { this.items = new ArrayList<>(); }
+    /**
+     * Constructor to initialize an empty repository.
+     */
+    public Repository() {
+        this.items = new ArrayList<>();
+    }
 
-    //methods
-    public List<T> getAll() { return items; }
-    public void add(T item) { this.items.add(item); }
+    /**
+     * Returns a list of all items in the repository.
+     *
+     * @return A list containing all items.
+     */
+    public List<T> getAll() {
+        return items;
+    }
+
+    /**
+     * Adds an item to the repository.
+     *
+     * @param item The item to add.
+     */
+    public void add(T item) {
+        items.add(item);
+    }
 
     /**
      * Filters the items in the repository based on the given predicate.
-     * @param predicate filter criteria
-     * @return list of items using stream and lambda functions
-     * @RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE) // otherwise the .toList() throws an error
+     *
+     * @param predicate The filter criteria.
+     * @return A list of items that match the predicate.
      */
     @RequiresApi(api = Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-    public List<T> filter(Predicate<T> predicate)
-    {
-        return items.stream().filter(predicate).toList();
+    public List<T> filter(Predicate<T> predicate) {
+        return items.stream()
+                .filter(predicate)
+                .collect(Collectors.toList()); // Use collect(Collectors.toList()) for compatibility
     }
-
-
 }
