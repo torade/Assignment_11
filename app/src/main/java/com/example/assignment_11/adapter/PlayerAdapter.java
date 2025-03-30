@@ -11,13 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.assignment_11.R;
-import com.example.assignment_11.model.Team;
+import com.example.assignment_11.model.Player;
 
 import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
+public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder>
 {
-    private List<Team> data;
+    private List<Player> data;
     private final Context context;
     private final OnItemClickListener listener;
     public interface OnItemClickListener { void onItemClick(String item); }
@@ -26,11 +26,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
      * Constructor
      * @param data
      */
-    public Adapter(Context context, List<Team> data, OnItemClickListener listener) {
+    public PlayerAdapter(Context context, List<Player> data, OnItemClickListener listener) {
         this.context = context;
         this.data = data;
         this.listener = listener;
     }
+
 
 
     @NonNull
@@ -43,17 +44,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Team team = data.get(position);
-
-        holder.tvItemName.setText(team.getName());
-        holder.tvItemDetail.setText(team.getLeague());
-        holder.tvItemExtra.setText(team.getCountry());
+        Player player = data.get(position);
+        holder.tvItemName.setText(player.getName());
+        holder.tvItemDetail.setText(player.getPosition());
+        holder.tvItemExtra.setText(player.getTeam());
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null)
-                listener.onItemClick(team.getName());
+                listener.onItemClick(player.getName());
         });
     }
+
 
 
 
@@ -75,10 +76,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>
     }
 
 
-    public void setTeams(List<Team> newData) {
+
+    public void setPlayers(List<Player> newData) {
         this.data = newData;
         notifyDataSetChanged();
     }
+
 
 
 

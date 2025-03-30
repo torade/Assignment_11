@@ -1,6 +1,24 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="Player Fragment"
-    android:gravity="center"
-    android:textSize="20sp"/>
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_player"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="8dp" />
+
+    <TextView
+        android:id="@+id/tv_empty_view_player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No players to display"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:padding="16dp" />
+</LinearLayout>

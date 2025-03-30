@@ -39,29 +39,28 @@ public class TeamFragment extends Fragment implements Adapter.OnItemClickListene
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        teamRepository = new TeamRepository();
+
+        //get all views from layout
         recyclerView = view.findViewById(R.id.recycler_view);
         tvEmptyView = view.findViewById(R.id.tv_empty_view);
         Button btnShowAll = view.findViewById(R.id.btn_show_all);
         Button btnFilterTeams = view.findViewById(R.id.btn_filter_teams);
         Button btnSortByName = view.findViewById(R.id.btn_sort_by_name);
 
-        teamRepository = new TeamRepository();
-
-        adapter = new Adapter(requireContext(),
-                teamRepository.getAll().stream()
-                        .map(Team::getName)
-                        .collect(Collectors.toList()),
-                this);
-
+        //set up adapter and RecyclerView
+        adapter = new Adapter(requireContext(), teamRepository.getAll(), this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
+        //set up logic
         loadAllTeams();
 
         btnShowAll.setOnClickListener(v -> loadAllTeams());
         btnFilterTeams.setOnClickListener(v -> filterTeams());
         btnSortByName.setOnClickListener(v -> sortTeamsByName());
     }
+
 
     private void loadAllTeams() {
         List<Team> teams = teamRepository.getAll();
@@ -87,11 +86,10 @@ public class TeamFragment extends Fragment implements Adapter.OnItemClickListene
         } else {
             recyclerView.setVisibility(View.VISIBLE);
             tvEmptyView.setVisibility(View.GONE);
-            adapter.setTeams(teams.stream()
-                    .map(Team::getName)
-                    .collect(Collectors.toList()));
+            adapter.setTeams(teams);
         }
     }
+
 
     @Override
     public void onItemClick(String item) {
